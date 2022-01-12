@@ -5,6 +5,7 @@ using AgenziaViaggi.Models;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgenziaViaggi.Configuration;
 
 namespace AgenziaViaggi
 {
@@ -27,19 +28,15 @@ namespace AgenziaViaggi
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Responsabile
-            modelBuilder.ApplyConfiguration<Partecipante>().ToTable("Responsabile")
-                                                           .HasKey(K => K.ID);
-            modelBuilder.Entity<Responsabile>().Property("Nome").IsRequired();
-            modelBuilder.Entity<Responsabile>().Property("Cognome").IsRequired();
-            modelBuilder.Entity<Responsabile>().Property("NumeroDiTelefono")
-                                               .IsFixedLength()
-                                               .HasMaxLength(10)
-                                               .IsRequired();
-
+            //Partecipante
+            modelBuilder.ApplyConfiguration<Partecipante>(new PartecipanteConfiguration());
+            //Gita
+            modelBuilder.ApplyConfiguration<Gita>(new GitaConfiguration());
             //Itinerario
+            modelBuilder.ApplyConfiguration<Itinerario>(new ItinerarioConfiguration());
+            //Responsabile
+            modelBuilder.ApplyConfiguration<Responsabile>(new ResponsabileConfiguration());
 
-                                               
 
         }
 
