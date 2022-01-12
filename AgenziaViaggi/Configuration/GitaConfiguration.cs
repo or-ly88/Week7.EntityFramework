@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using AgenziaViaggi.Models;
+using AgenziaViaggi.Configuration;
+
 
 namespace AgenziaViaggi.Configuration
 {
     internal class GitaConfiguration : IEntityTypeConfiguration<Gita>
     {
+        
         public void Configure(EntityTypeBuilder<Gita> builder)
         {
             builder.ToTable("Gita");
@@ -18,14 +21,14 @@ namespace AgenziaViaggi.Configuration
             builder.Property(d => d.DataDiPartenza).IsRequired();
 
             //Relazione 1 a molti tra Gita e Responsabile
-            builder.HasMany(g => g.Gite)
-                 .WithOne(r => r.Responsabile)
-                 .HasForeignKey(r => r.ResponsabileID);
+            builder.HasOne(r => r.Responsabile)
+                   .WithMany(g => g.Gite);
+                 
 
             // Relazione 1 a molti tra Gita e Itinerario
-            builder.HasMany(g => g.Gite)
-                 .WithOne(i => i.Itinerario)
-                 .HasForeignKey(i => i.ItinerarioID);
+            builder.HasOne(i=> i.Itinerario)
+                   .WithMany(g => g.Gite);
+                 
 
 
 
